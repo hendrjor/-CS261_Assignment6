@@ -76,17 +76,18 @@ class UndirectedGraph:
             self.adj_list[u] = []  # creates u
             self.adj_list[u].append(v)  # adds v to u
 
-
     def remove_edge(self, v: str, u: str) -> None:
-        """Remove edge from the graph"""
+        """Removes an edge from the graph"""
         if v in self.adj_list and u in self.adj_list:  # if both keys are in the dictionary
             v_list = self.adj_list[v]
             u_list = self.adj_list[u]
-            u_list.remove(v)
-            v_list.remove(u)
+            if v in u_list:
+                u_list.remove(v)
+            if u in v_list:
+                v_list.remove(u)
 
     def remove_vertex(self, v: str) -> None:
-        """Remove vertex and all connected edges"""
+        """Removes a vertex and all connected edges"""
         if v in self.adj_list:
             self.adj_list.pop(v)
             for key in self.adj_list:
@@ -94,16 +95,23 @@ class UndirectedGraph:
                     self.adj_list[key].remove(v)
 
     def get_vertices(self) -> []:
-        """
-        Return list of vertices in the graph (any order)
-        """
-       
+        """Returns a list of vertices in the graph (any order)"""
+        vertices = []
+        for vertex in self.adj_list:
+            vertices.append(vertex)
+        return vertices
 
     def get_edges(self) -> []:
-        """
-        Return list of edges in the graph (any order)
-        """
-        
+        """Return list of edges in the graph (any order)"""
+        edges = []
+        for vertex in self.adj_list:
+            for adjacent_vertex in self.adj_list[vertex]:
+                pair = vertex, adjacent_vertex
+                reverse_pair = adjacent_vertex, vertex
+                if pair and reverse_pair not in edges:
+                    edges.append(pair)
+
+        return edges
 
     def is_valid_path(self, path: []) -> bool:
         """
@@ -142,39 +150,40 @@ class UndirectedGraph:
 
 if __name__ == '__main__':
 
-    print("\nPDF - method add_vertex() / add_edge example 1")
-    print("----------------------------------------------")
-    g = UndirectedGraph()
-    print(g)
-
-    for v in 'ABCDE':
-        g.add_vertex(v)
-    print(g)
-
-    g.add_vertex('A')
-    print(g)
-
-    for u, v in ['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE', ('B', 'C')]:
-        g.add_edge(u, v)
-    print(g)
-
-    print("\nPDF - method remove_edge() / remove_vertex example 1")
-    print("----------------------------------------------------")
-    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
-    g.remove_vertex('DOES NOT EXIST')
-    g.remove_edge('A', 'B')
-    g.remove_edge('X', 'B')
-    print(g)
-    g.remove_vertex('D')
-    print(g)
-
-
-    # print("\nPDF - method get_vertices() / get_edges() example 1")
-    # print("---------------------------------------------------")
+    # print("\nPDF - method add_vertex() / add_edge example 1")
+    # print("----------------------------------------------")
     # g = UndirectedGraph()
-    # print(g.get_edges(), g.get_vertices(), sep='\n')
-    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
-    # print(g.get_edges(), g.get_vertices(), sep='\n')
+    # print(g)
+
+    # for v in 'ABCDE':
+    #     g.add_vertex(v)
+    # print(g)
+
+    # g.add_vertex('A')
+    # print(g)
+
+    # for u, v in ['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE', ('B', 'C')]:
+    #     g.add_edge(u, v)
+    # print(g)
+
+    # print("\nPDF - method remove_edge() / remove_vertex example 1")
+    # print("----------------------------------------------------")
+    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
+    # g.remove_vertex('DOES NOT EXIST')
+    # g.remove_edge('A', 'B')
+    # g.remove_edge('X', 'B')
+    # print(g)
+    # g.remove_vertex('D')
+    # print(g)
+
+
+    print("\nPDF - method get_vertices() / get_edges() example 1")
+    print("---------------------------------------------------")
+    g = UndirectedGraph()
+    print(g.get_edges(), g.get_vertices(), sep='\n')
+    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
+    print(g)
+    print(g.get_edges(), g.get_vertices(), sep='\n')
 
 
     # print("\nPDF - method is_valid_path() example 1")
