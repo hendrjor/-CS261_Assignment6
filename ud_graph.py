@@ -47,6 +47,8 @@ class UndirectedGraph:
 
     def add_edge(self, u: str, v: str) -> None:
         """Adds a new edge to the graph"""
+        if u == v:
+            return
         if v in self.adj_list and u in self.adj_list:  # if both keys are in the dictionary
             u_list = self.adj_list[u]
             in_v = False
@@ -80,15 +82,16 @@ class UndirectedGraph:
         if v in self.adj_list and u in self.adj_list:  # if both keys are in the dictionary
             v_list = self.adj_list[v]
             u_list = self.adj_list[u]
-            for value in u_list:  # determines if the edge already exists
-                if value == v:
-                    u_list.remove(v)
-                    v_list.remove(u)
-                    return
+            u_list.remove(v)
+            v_list.remove(u)
 
     def remove_vertex(self, v: str) -> None:
         """Remove vertex and all connected edges"""
-        
+        if v in self.adj_list:
+            self.adj_list.pop(v)
+            for key in self.adj_list:
+                if v in self.adj_list[key]:
+                    self.adj_list[key].remove(v)
 
     def get_vertices(self) -> []:
         """
@@ -162,8 +165,8 @@ if __name__ == '__main__':
     g.remove_edge('A', 'B')
     g.remove_edge('X', 'B')
     print(g)
-    # g.remove_vertex('D')
-    # print(g)
+    g.remove_vertex('D')
+    print(g)
 
 
     # print("\nPDF - method get_vertices() / get_edges() example 1")
