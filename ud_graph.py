@@ -108,16 +108,28 @@ class UndirectedGraph:
             for adjacent_vertex in self.adj_list[vertex]:
                 pair = vertex, adjacent_vertex
                 reverse_pair = adjacent_vertex, vertex
-                if pair and reverse_pair not in edges:
+                if pair and reverse_pair not in edges:  # determines if the duplicate is already in the list
                     edges.append(pair)
-
         return edges
 
     def is_valid_path(self, path: []) -> bool:
-        """
-        Return true if provided path is valid, False otherwise
-        """
-       
+        """Return true if provided path is valid, False otherwise"""
+        if not path:
+            return True
+        path_length = len(path)
+
+        for index in range(path_length):
+            key_value = path[index]
+            if key_value not in self.adj_list:
+                return False
+
+            if index == path_length - 1:
+                return True
+
+            key_list = self.adj_list[key_value]
+            next_val = path[index + 1]
+            if next_val not in key_list:
+                return False
 
     def dfs(self, v_start, v_end=None) -> []:
         """
@@ -177,21 +189,22 @@ if __name__ == '__main__':
     # print(g)
 
 
-    print("\nPDF - method get_vertices() / get_edges() example 1")
-    print("---------------------------------------------------")
-    g = UndirectedGraph()
-    print(g.get_edges(), g.get_vertices(), sep='\n')
-    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
+    # print("\nPDF - method get_vertices() / get_edges() example 1")
+    # print("---------------------------------------------------")
+    # g = UndirectedGraph()
+    # print(g.get_edges(), g.get_vertices(), sep='\n')
+    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
+    # print(g)
+    # print(g.get_edges(), g.get_vertices(), sep='\n')
+
+
+    print("\nPDF - method is_valid_path() example 1")
+    print("--------------------------------------")
+    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
     print(g)
-    print(g.get_edges(), g.get_vertices(), sep='\n')
-
-
-    # print("\nPDF - method is_valid_path() example 1")
-    # print("--------------------------------------")
-    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
-    # test_cases = ['ABC', 'ADE', 'ECABDCBE', 'ACDECB', '', 'D', 'Z']
-    # for path in test_cases:
-    #     print(list(path), g.is_valid_path(list(path)))
+    test_cases = ['ABC', 'ADE', 'ECABDCBE', 'ACDECB', '', 'D', 'Z']
+    for path in test_cases:
+        print(list(path), g.is_valid_path(list(path)))
 
 
     # print("\nPDF - method dfs() and bfs() example 1")
