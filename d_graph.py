@@ -64,8 +64,7 @@ class DirectedGraph:
         """Adds weighted edges to the graph"""
         if weight < 0 or src == dst:
             return
-        if src < 0 or dst < 0:
-            return
+
         row_num = 0
         for row in self.adj_matrix:
             if src == row_num:
@@ -76,6 +75,8 @@ class DirectedGraph:
     def remove_edge(self, src: int, dst: int) -> None:
         """Removes an edge from the directed graph"""
         row_num = 0
+        if src < 0 or dst < 0:
+            return
         for row in self.adj_matrix:
             if src == row_num:
                 if dst < len(row):
