@@ -201,32 +201,57 @@ class UndirectedGraph:
             visited.append(False)
         count = 0
         for index in range(len(vertices)):
-            if visited[index] is False:
+            if visited[index] is False:  # determines if the index has been visited
                 vertex_list = self.adj_list[vertices[index]]
-                self.count_connected_components_helper(vertex_list, index, visited)
+                self.count_connected_components_helper(vertex_list, index, visited)  # determines all connected components of current vertex
                 count += 1
         return count
 
     def count_connected_components_helper(self, vertex_list, index, visited):
         """Recursively counts connected components"""
         vertices = self.get_vertices()
-        visited[index] = True
+        visited[index] = True  # sets the corresponding index to True
         for value in vertex_list:
             next_index = 0
             for i in range(len(visited)):
                 if value == vertices[i]:
                     next_index = i
-            if visited[next_index] is False:
+            if visited[next_index] is False:  # determines if the index has been visited
                 vertex_list = self.adj_list[value]
                 self.count_connected_components_helper(vertex_list, next_index, visited)
 
     def has_cycle(self):
-        """
-        Return True if graph contains a cycle, False otherwise
-        """
-       
+        """Return True if graph contains a cycle, False otherwise"""
+        visited = []
+        vertices = self.get_vertices()
+        for i in range(len(vertices)):
+            visited.append(False)
+        # print(vertices)
 
-   
+        for index in range(len(vertices)):
+            if visited[index] is False:  # determines if the index has been visited
+                vertex_list = self.adj_list[vertices[index]]
+                if self.has_cycle_helper(vertex_list, index, visited, -1):
+                    return True
+        return False
+
+    def has_cycle_helper(self, vertex_list, index, visited, parent):
+        """"""
+        visited[index] = True
+        vertices = self.get_vertices()
+        for value in vertex_list:
+            next_index = 0
+            for i in range(len(visited)):
+                if value == vertices[i]:
+                    next_index = i
+            if visited[next_index] is False:  # determines if the index has been visited
+                vertex_list = self.adj_list[value]
+                if self.has_cycle_helper(vertex_list, next_index, visited, index):
+                    return True
+            elif parent != next_index:
+                return True
+        return False
+
 
 
 if __name__ == '__main__':
@@ -290,8 +315,26 @@ if __name__ == '__main__':
     #     print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
 
 
-    print("\nPDF - method count_connected_components() example 1")
-    print("---------------------------------------------------")
+    # print("\nPDF - method count_connected_components() example 1")
+    # print("---------------------------------------------------")
+    # edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
+    # g = UndirectedGraph(edges)
+    # print(g)
+    # test_cases = (
+    #     'add QH', 'remove FG', 'remove GQ', 'remove HQ',
+    #     'remove AE', 'remove CA', 'remove EB', 'remove CE', 'remove DE',
+    #     'remove BC', 'add EA', 'add EF', 'add GQ', 'add AC', 'add DQ',
+    #     'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG')
+    # for case in test_cases:
+    #     command, edge = case.split()
+    #     u, v = edge
+    #     g.add_edge(u, v) if command == 'add' else g.remove_edge(u, v)
+    #     print(g.count_connected_components(), end=' ')
+    # print()
+
+
+    print("\nPDF - method has_cycle() example 1")
+    print("----------------------------------")
     edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
     g = UndirectedGraph(edges)
     print(g)
@@ -299,27 +342,10 @@ if __name__ == '__main__':
         'add QH', 'remove FG', 'remove GQ', 'remove HQ',
         'remove AE', 'remove CA', 'remove EB', 'remove CE', 'remove DE',
         'remove BC', 'add EA', 'add EF', 'add GQ', 'add AC', 'add DQ',
-        'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG')
+        'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG',
+        'add FG', 'remove GE')
     for case in test_cases:
         command, edge = case.split()
         u, v = edge
         g.add_edge(u, v) if command == 'add' else g.remove_edge(u, v)
-        print(g.count_connected_components(), end=' ')
-    print()
-
-
-    # print("\nPDF - method has_cycle() example 1")
-    # print("----------------------------------")
-    # edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
-    # g = UndirectedGraph(edges)
-    # test_cases = (
-    #     'add QH', 'remove FG', 'remove GQ', 'remove HQ',
-    #     'remove AE', 'remove CA', 'remove EB', 'remove CE', 'remove DE',
-    #     'remove BC', 'add EA', 'add EF', 'add GQ', 'add AC', 'add DQ',
-    #     'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG',
-    #     'add FG', 'remove GE')
-    # for case in test_cases:
-    #     command, edge = case.split()
-    #     u, v = edge
-    #     g.add_edge(u, v) if command == 'add' else g.remove_edge(u, v)
-    #     print('{:<10}'.format(case), g.has_cycle())
+        print('{:<10}'.format(case), g.has_cycle())
