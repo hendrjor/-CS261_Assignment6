@@ -57,7 +57,6 @@ class DirectedGraph:
         self.adj_matrix = [[0 for _ in range(v_count)] for _ in range(v_count)]
         return self.v_count
 
-
     def add_edge(self, src: int, dst: int, weight=1) -> None:
         """Adds weighted edges to the graph"""
         if weight < 0 or src == dst:
@@ -65,7 +64,8 @@ class DirectedGraph:
         row_num = 0
         for row in self.adj_matrix:
             if src == row_num:
-                row[dst] = weight
+                if dst < len(row):
+                    row[dst] = weight
             row_num += 1
 
     def remove_edge(self, src: int, dst: int) -> None:
