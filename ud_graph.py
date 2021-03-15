@@ -5,7 +5,6 @@
 
 import heapq
 from collections import deque
-import queue
 
 
 class UndirectedGraph:
@@ -141,7 +140,7 @@ class UndirectedGraph:
         if v_start not in self.adj_list:
             return visited
         stack = deque()
-        stack.append(v_start)
+        stack.append(v_start) # adds first vertex to the end of the list
 
         while len(stack) != 0:
             vertex = stack.pop()
@@ -168,10 +167,9 @@ class UndirectedGraph:
         visited = []
         if v_start not in self.adj_list:
             return visited
-        que = queue()
-        que.push(v_start)
+        que = []
+        heapq.heappush(que, v_start)
 
-        print(que)
         # while len(queue) != 0:
         #     vertex = heapq.heappop(queue)
         #     if vertex == v_end:  # stops if the end vertex is reached
@@ -213,7 +211,7 @@ class UndirectedGraph:
         visited[index] = True  # sets the corresponding index to True
         for value in vertex_list:
             next_index = 0
-            for i in range(len(visited)):
+            for i in range(len(visited)):  # determines the next index to be visited
                 if value == vertices[i]:
                     next_index = i
             if visited[next_index] is False:  # determines if the index has been visited
@@ -226,7 +224,6 @@ class UndirectedGraph:
         vertices = self.get_vertices()
         for i in range(len(vertices)):
             visited.append(False)
-        # print(vertices)
 
         for index in range(len(vertices)):
             if visited[index] is False:  # determines if the index has been visited
@@ -236,12 +233,12 @@ class UndirectedGraph:
         return False
 
     def has_cycle_helper(self, vertex_list, index, visited, parent):
-        """"""
+        """Recursively determines if there is a cycle in the graph"""
         visited[index] = True
         vertices = self.get_vertices()
         for value in vertex_list:
             next_index = 0
-            for i in range(len(visited)):
+            for i in range(len(visited)):  # determines the next index to be visited
                 if value == vertices[i]:
                     next_index = i
             if visited[next_index] is False:  # determines if the index has been visited
@@ -301,18 +298,18 @@ if __name__ == '__main__':
     #     print(list(path), g.is_valid_path(list(path)))
 
 
-    # print("\nPDF - method dfs() and bfs() example 1")
-    # print("--------------------------------------")
-    # edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
-    # g = UndirectedGraph(edges)
-    # print(g)
-    # test_cases = 'ABCDEGH'
-    # for case in test_cases:
-    #     print(f'{case} DFS:{g.dfs(case)} BFS:{g.bfs(case)}')
-    # print('-----')
-    # for i in range(1, len(test_cases)):
-    #     v1, v2 = test_cases[i], test_cases[-1 - i]
-    #     print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
+    print("\nPDF - method dfs() and bfs() example 1")
+    print("--------------------------------------")
+    edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
+    g = UndirectedGraph(edges)
+    print(g)
+    test_cases = 'ABCDEGH'
+    for case in test_cases:
+        print(f'{case} DFS:{g.dfs(case)} BFS:{g.bfs(case)}')
+    print('-----')
+    for i in range(1, len(test_cases)):
+        v1, v2 = test_cases[i], test_cases[-1 - i]
+        print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
 
 
     # print("\nPDF - method count_connected_components() example 1")
@@ -333,19 +330,19 @@ if __name__ == '__main__':
     # print()
 
 
-    print("\nPDF - method has_cycle() example 1")
-    print("----------------------------------")
-    edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
-    g = UndirectedGraph(edges)
-    print(g)
-    test_cases = (
-        'add QH', 'remove FG', 'remove GQ', 'remove HQ',
-        'remove AE', 'remove CA', 'remove EB', 'remove CE', 'remove DE',
-        'remove BC', 'add EA', 'add EF', 'add GQ', 'add AC', 'add DQ',
-        'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG',
-        'add FG', 'remove GE')
-    for case in test_cases:
-        command, edge = case.split()
-        u, v = edge
-        g.add_edge(u, v) if command == 'add' else g.remove_edge(u, v)
-        print('{:<10}'.format(case), g.has_cycle())
+    # print("\nPDF - method has_cycle() example 1")
+    # print("----------------------------------")
+    # edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
+    # g = UndirectedGraph(edges)
+    # print(g)
+    # test_cases = (
+    #     'add QH', 'remove FG', 'remove GQ', 'remove HQ',
+    #     'remove AE', 'remove CA', 'remove EB', 'remove CE', 'remove DE',
+    #     'remove BC', 'add EA', 'add EF', 'add GQ', 'add AC', 'add DQ',
+    #     'add EG', 'add QH', 'remove CD', 'remove BD', 'remove QG',
+    #     'add FG', 'remove GE')
+    # for case in test_cases:
+    #     command, edge = case.split()
+    #     u, v = edge
+    #     g.add_edge(u, v) if command == 'add' else g.remove_edge(u, v)
+    #     print('{:<10}'.format(case), g.has_cycle())
