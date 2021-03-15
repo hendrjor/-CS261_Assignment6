@@ -3,6 +3,9 @@
 # Assignment:
 # Description:
 
+from collections import deque
+
+
 class DirectedGraph:
     """
     Class to implement directed weighted graph
@@ -111,10 +114,37 @@ class DirectedGraph:
                 return False
 
     def dfs(self, v_start, v_end=None) -> []:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Return list of vertices visited during DFS search Vertices are picked in alphabetical order"""
+        visited = []
+        num_rows = len(self.adj_matrix)
+        if v_start >= num_rows:
+            return visited
+        stack = deque()
+        stack.append(v_start) # adds first vertex to the end of the list
+
+        while len(stack) != 0:
+            vertex = stack.pop()
+            if vertex == v_end:  # stops if the end vertex is reached
+                visited.append(vertex)
+                return visited
+
+            if vertex not in visited:
+                visited.append(vertex)
+
+            next_vertices_temp = self.adj_matrix[vertex]
+            next_vertices = []
+            index = 0
+            for x in next_vertices_temp:
+                if x != 0:
+                    next_vertices.append(index)  # appends the index to the next vertices list
+                index += 1
+            next_vertices.sort()  # sorts the next vertices list
+            next_vertices.reverse()  # reverses the list
+
+            for v in next_vertices:
+                if v not in visited:
+                    stack.append(v)
+        return visited
 
     def bfs(self, v_start, v_end=None) -> []:
         """
@@ -162,24 +192,25 @@ if __name__ == '__main__':
     # print(g.get_edges(), g.get_vertices(), sep='\n')
 
 
-    print("\nPDF - method is_valid_path() example 1")
+    # print("\nPDF - method is_valid_path() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # print(g)
+    # test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
+    # for path in test_cases:
+    #     print(path, g.is_valid_path(path))
+
+
+    print("\nPDF - method dfs() and bfs() example 1")
     print("--------------------------------------")
     edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
              (3, 1, 5), (2, 1, 23), (3, 2, 7)]
     g = DirectedGraph(edges)
     print(g)
-    test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
-    for path in test_cases:
-        print(path, g.is_valid_path(path))
-
-
-    # print("\nPDF - method dfs() and bfs() example 1")
-    # print("--------------------------------------")
-    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    # g = DirectedGraph(edges)
-    # for start in range(5):
-    #     print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+    for start in range(5):
+        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
 
 
     # print("\nPDF - method has_cycle() example 1")
