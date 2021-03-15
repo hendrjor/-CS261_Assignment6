@@ -64,6 +64,8 @@ class DirectedGraph:
         """Adds weighted edges to the graph"""
         if weight < 0 or src == dst:
             return
+        if src < 0 or dst < 0:
+            return
         row_num = 0
         for row in self.adj_matrix:
             if src == row_num:
