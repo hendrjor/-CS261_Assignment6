@@ -213,10 +213,13 @@ class DirectedGraph:
         visited = dict()
         priority = deque()
         priority.append((src, 0))
+
         while len(priority) != 0:
             element = priority.popleft()
             vertex = element[0]
             distance = element[1]
+            if vertex in visited and distance < visited[vertex]:  # determines if the path is less than the previous distance stored
+                visited[vertex] = distance
             if vertex not in visited:
                 visited[vertex] = distance
                 next_vertices_temp = self.adj_matrix[vertex]
