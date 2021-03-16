@@ -4,7 +4,6 @@
 # Description:
 
 from collections import deque
-import hashlib
 
 
 class DirectedGraph:
@@ -210,10 +209,38 @@ class DirectedGraph:
         return False
 
     def dijkstra(self, src: int) -> []:
-        """
-        TODO: Write this implementation
-        """
-        pass
+        """Implements dijkstra's algorithm to determine the cumulative distance to each vertex"""
+        visited = dict()
+        priority = deque()
+        priority.append((src, 0))
+        while len(priority) != 0:
+            element = priority.popleft()
+            vertex = element[0]
+            distance = element[1]
+            if vertex not in visited:
+                visited[vertex] = distance
+                next_vertices_temp = self.adj_matrix[vertex]
+                next_vertices = []
+                next_distances = []
+                index = 0
+                for dist in next_vertices_temp:
+                    if dist != 0:
+                        next_vertices.append(index)  # appends the index to the next vertices list
+                        next_distances.append(dist)
+                    index += 1
+                next_vertices.sort()  # sorts the next vertices list
+
+                dist_index = 0
+                for v in next_vertices:
+                    v_distance = next_distances[dist_index]
+                    next_element = (v, v_distance + distance)
+                    priority.append(next_element)
+                    dist_index += 1
+
+        lengths = [float('inf') for _ in range(len(self.adj_matrix))]
+        for val in visited:
+            lengths[val] = visited[val]
+        return lengths
 
 
 if __name__ == '__main__':
@@ -254,14 +281,14 @@ if __name__ == '__main__':
     #     print(path, g.is_valid_path(path))
 
 
-    print("\nPDF - method dfs() and bfs() example 1")
-    print("--------------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    print(g)
-    for start in range(5):
-        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+    # print("\nPDF - method dfs() and bfs() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # print(g)
+    # for start in range(5):
+    #     print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
 
 
     # print("\nPDF - method has_cycle() example 1")
@@ -285,14 +312,14 @@ if __name__ == '__main__':
     # print('\n', g)
 
 
-    # print("\nPDF - dijkstra() example 1")
-    # print("--------------------------")
-    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    # g = DirectedGraph(edges)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
-    # g.remove_edge(4, 3)
-    # print('\n', g)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    print("\nPDF - dijkstra() example 1")
+    print("--------------------------")
+    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    g = DirectedGraph(edges)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    g.remove_edge(4, 3)
+    print('\n', g)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
