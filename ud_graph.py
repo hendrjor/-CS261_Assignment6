@@ -182,7 +182,6 @@ class UndirectedGraph:
                 for x in next_vertices_temp:
                     next_vertices.append(x)
                 next_vertices.sort()  # sorts the next vertices list
-                next_vertices.reverse()
 
                 for v in next_vertices:
                     if v not in visited:
