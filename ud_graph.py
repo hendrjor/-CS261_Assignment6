@@ -3,9 +3,7 @@
 # Assignment: 
 # Description:
 
-import heapq
 from collections import deque
-
 
 class UndirectedGraph:
     """
@@ -140,7 +138,7 @@ class UndirectedGraph:
         if v_start not in self.adj_list:
             return visited
         stack = deque()
-        stack.append(v_start) # adds first vertex to the end of the list
+        stack.append(v_start)  # adds first vertex to the end of the list
 
         while len(stack) != 0:
             vertex = stack.pop()
@@ -167,29 +165,30 @@ class UndirectedGraph:
         visited = []
         if v_start not in self.adj_list:
             return visited
-        que = []
-        heapq.heappush(que, v_start)
+        que = deque()
+        que.appendleft(v_start)
 
-        # while len(queue) != 0:
-        #     vertex = heapq.heappop(queue)
-        #     if vertex == v_end:  # stops if the end vertex is reached
-        #         visited.append(vertex)
-        #         return visited
-        #     # print(vertex)
-        #
-        #     if vertex not in visited:
-        #         visited.append(vertex)
-        #
-        #     next_vertices_temp = self.adj_list[vertex]
-        #     next_vertices = []
-        #     for x in next_vertices_temp:
-        #         next_vertices.append(x)
-        #     next_vertices.sort()  # sorts the next vertices list
-        #     next_vertices.reverse()  # reverses the list
-        #     for v in next_vertices:
-        #         if v not in visited:
-        #
-        # return visited
+        while len(que) != 0:
+            vertex = que.pop()
+            if vertex == v_end:  # stops if the end vertex is reached
+                visited.append(vertex)
+                return visited
+
+            if vertex in visited:
+                return visited
+
+            visited.append(vertex)
+
+            next_vertices_temp = self.adj_list[vertex]
+            next_vertices = []
+            for x in next_vertices_temp:
+                next_vertices.append(x)
+            next_vertices.sort()  # sorts the next vertices list
+            # next_vertices.reverse()
+            for v in next_vertices:
+                if v not in visited:
+                    que.appendleft(v)
+        return visited
 
     def count_connected_components(self):
         """Return number of connected componets in the graph"""
