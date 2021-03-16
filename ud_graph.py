@@ -169,7 +169,7 @@ class UndirectedGraph:
         que.appendleft(v_start)
 
         while len(que) != 0:
-            vertex = que.popleft()
+            vertex = que.pop()
 
             if vertex == v_end:  # stops if the end vertex is reached
                 visited.append(vertex)
@@ -185,7 +185,7 @@ class UndirectedGraph:
 
                 for v in next_vertices:
                     if v not in visited:
-                        que.append(v)
+                        que.appendleft(v)
         return visited
 
     def count_connected_components(self):
