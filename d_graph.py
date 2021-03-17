@@ -228,10 +228,19 @@ class DirectedGraph:
                 index = 0
                 for dist in next_vertices_temp:
                     if dist != 0:
-                        next_vertices.append(index)  # appends the index to the next vertices list
-                        next_distances.append(dist)
+                        if not next_vertices:
+                            next_vertices.append(index)  # appends the index to the next vertices list
+                            next_distances.append(dist)
+                        elif dist > next_vertices[0]:
+                            next_vertices.append(index)  # appends the index to the next vertices list
+                            next_distances.append(dist)
+                        else:
+                            next_vertices.insert(0, index)
+                            next_distances.inset(0, dist)
+
                     index += 1
-                next_vertices.sort()  # sorts the next vertices list
+                # next_vertices.sort()  # sorts the next vertices list
+                # print(next_distances)
 
                 dist_index = 0
                 for v in next_vertices:
@@ -239,6 +248,7 @@ class DirectedGraph:
                     next_element = (v, v_distance + distance)
                     priority.append(next_element)
                     dist_index += 1
+
 
         lengths = [float('inf') for _ in range(len(self.adj_matrix))]
         for val in visited:
@@ -320,6 +330,7 @@ if __name__ == '__main__':
     edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
              (3, 1, 5), (2, 1, 23), (3, 2, 7)]
     g = DirectedGraph(edges)
+    print(g)
     for i in range(5):
         print(f'DIJKSTRA {i} {g.dijkstra(i)}')
     g.remove_edge(4, 3)
