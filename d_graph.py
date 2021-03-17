@@ -228,21 +228,21 @@ class DirectedGraph:
                 index = 0
                 for dist in next_vertices_temp:
                     if dist != 0:
-                        if not next_vertices:
-                            next_vertices.append(index)  # appends the index to the next vertices list
-                            next_distances.append(dist)
-                        else:
-                            z = 0
-                            for v in next_distances:
-                                if dist < v:
-                                    next_vertices.insert(z, index)
-                                    next_distances.insert(z, dist)
-                                    break
-                                z += 1
+                        # if not next_vertices:
+                        next_vertices.append(index)  # appends the index to the next vertices list
+                        next_distances.append(dist)
+                        # else:
+                        #     z = 0
+                        #     for v in next_distances:
+                        #         if dist < v:
+                        #             next_vertices.insert(z, index)
+                        #             next_distances.insert(z, dist)
+                        #             break
+                        #         z += 1
 
                     index += 1
                 # next_vertices.sort()  # sorts the next vertices list
-                print(next_distances)
+                # print(next_distances)
 
                 dist_index = 0
                 for v in next_vertices:
