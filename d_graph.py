@@ -236,7 +236,7 @@ class DirectedGraph:
                             next_distances.append(dist)
                         else:
                             next_vertices.insert(0, index)
-                            next_distances.inset(0, dist)
+                            next_distances.insert(0, dist)
 
                     index += 1
                 # next_vertices.sort()  # sorts the next vertices list
